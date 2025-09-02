@@ -6,9 +6,8 @@ This code example demonstrates the implementation of a Bluetooth LE EAD scanner 
 
 - [ModusToolbox&trade; software](https://www.infineon.com/modustoolbox) v3.2 or later (tested with v3.2)
 - Board support package (BSP) minimum required version for :
-   - CYW920829M2EVK-02 : v2.0.0
-   - CYW989829M2EVB-01 : v2.0.0
-   - CYW989829M2EVB-03 : v2.0.0
+   - CYW920829M2EVK-02 : v3.0.0
+   - CYW989829M2EVB-01 : v3.0.0
 - Programming language: C
 - Associated parts: [AIROC&trade; CYW20829 Bluetooth&reg; LE SoC](https://www.infineon.com/cms/en/product/promopages/airoc20829)
 
@@ -19,7 +18,7 @@ This code example demonstrates the implementation of a Bluetooth LE EAD scanner 
 ## Supported kits (make variable 'TARGET')
 
 - AIROC&trade; CYW20829 Bluetooth&reg; LE evaluation kit (`CYW920829M2EVK-02`)
-- AIROC&trade; CYW89829 Bluetooth&reg; LE Evaluation Kit (`CYW989829M2EVB-01`, `CYW989829M2EVB-03`)
+- AIROC&trade; CYW89829 Bluetooth&reg; LE Evaluation Kit (`CYW989829M2EVB-01`)
 
 ## Hardware setup
 
@@ -315,6 +314,7 @@ Document title: *CE240277* – *AIROC&trade;: Bluetooth&reg; Low Energy EAD Scan
  Version | Description of change
  ------- | ---------------------
  1.0.0   | New code example
+ 2.0.0   | Remove support for CYW989829M2EVB-03 and updated btstack-integration with version 6.X 
 
 
 All referenced product or service names and trademarks are the property of their respective owners.

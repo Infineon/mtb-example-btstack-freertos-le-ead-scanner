@@ -7,7 +7,7 @@
 #
 ################################################################################
 # \copyright
-# Copyright 2018-2024, Cypress Semiconductor Corporation (an Infineon company)
+# Copyright 2018-2025, Cypress Semiconductor Corporation (an Infineon company)
 # SPDX-License-Identifier: Apache-2.0
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -115,19 +115,15 @@ endif
 # added to the build
 #
 ifeq ($(TARGET),APP_CYW920829M2EVK-02)
-COMPONENTS=FREERTOS WICED_BLE CYW20829B0 BTFW-TX10
+COMPONENTS=FREERTOS WICED_BLE BTFW-TX10
 endif # TARGET
 ifeq ($(TARGET),APP_CYW989829M2EVB-01)
-COMPONENTS=FREERTOS WICED_BLE CYW89829B0 BTFW-BGA77-TX10
-DEFINES+= CYW89829_BLE
-endif # TARGET
-ifeq ($(TARGET),APP_CYW989829M2EVB-03)
-COMPONENTS=FREERTOS WICED_BLE CYW89829B0 BTFW-TX10
+COMPONENTS=FREERTOS WICED_BLE BTFW-TX10
 DEFINES+= CYW89829_BLE
 endif # TARGET
 
 # Like COMPONENTS, but disable optional code that was enabled by default.
-DISABLE_COMPONENTS=FIRMWARE-TX10
+DISABLE_COMPONENTS=
 
 # By default the build system automatically looks in the Makefile's directory
 # tree for source code and builds it. The SOURCES variable can be used to

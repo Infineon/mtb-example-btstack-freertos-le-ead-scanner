@@ -2,6 +2,9 @@
 #include "ble_ead.h"
 #include "wiced_bt_trace.h"
 #include "app_bt_utils.h"
+#include "cy_utils.h"
+#define BLE_EAD_RANDOMIZER_LEN (5U)
+#define BLE_EAD_MIC_LEN (4U)
 
 extern wiced_bt_ble_key_material_t ble_ead_key_material;
 
@@ -19,21 +22,29 @@ void ble_ead_scan_result_cback(wiced_bt_ble_scan_results_t *p_scan_result, uint8
             uint8_t *p_plaintext;
             uint8_t *p_encrypted ;
             uint8_t *p_mic;
+            uint32_t mic = 0;
+            wiced_result_t result = WICED_BT_SUCCESS;
 
             printf("\n[%s] rcv encrypted:", __FUNCTION__);
-            print_array(p_randomizer, plaintext_len - 4);
+            print_array(p_randomizer, plaintext_len - BLE_EAD_MIC_LEN);
 
-            p_encrypted = p_randomizer + 5;
-            p_plaintext = p_randomizer + 5; // write the plaintext output to the same addr
-            plaintext_len -= 5 + 4; // sizeof(randomizer) + sizeof(mic)
+            p_encrypted = p_randomizer + BLE_EAD_RANDOMIZER_LEN;
+            p_plaintext = p_randomizer + BLE_EAD_RANDOMIZER_LEN; // write the plaintext output to the same addr
+            plaintext_len -= BLE_EAD_RANDOMIZER_LEN + BLE_EAD_MIC_LEN; // length(randomizer) + length(mic)
 
             // get the plaintext and mic from the encrypted data
-            uint32_t mic = wiced_bt_ble_decrypt_adv_packet(p_mat->session_key,  // session key
+            result = wiced_bt_ble_decrypt_adv_packet(p_mat->session_key,  // session key
                                                             p_mat->iv,           // iv
                                                             p_randomizer,        // randomizer from the incoming packet
                                                             p_encrypted,         // address of the encrypted data
                                                             p_plaintext,         // address of the decrypted plaintext
-                                                            plaintext_len);      // length of the encrypted payload
+                                                            plaintext_len,     // length of the encrypted payload
+                                                            &mic);
+            if (WICED_BT_SUCCESS != result)
+            {
+                printf("wiced_bt_ble_decrypt_adv_packet failed to decrypt adv packet!\n");
+                CY_ASSERT(0);
+            }
             // get the mic from the packet
             uint32_t packet_mic;
             p_mic = p_plaintext + plaintext_len;

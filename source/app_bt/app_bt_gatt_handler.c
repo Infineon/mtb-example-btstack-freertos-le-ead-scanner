@@ -8,7 +8,7 @@
  *
  *
  *******************************************************************************
- * Copyright 2021-2024, Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2021-2025, Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
  *
  * This software, including source code, documentation and related
@@ -312,10 +312,20 @@ app_bt_gatt_connection_up( wiced_bt_gatt_connection_status_t *p_status )
         /* Increment the number of peripherals connected count */
         num_peripherals++;
 
+
+        wiced_bt_ble_pref_conn_params_t conn_param_t =
+        {
+                .conn_interval_min = CY_BT_CONN_MIN_INTERVAL,
+                .conn_interval_max = CY_BT_CONN_MAX_INTERVAL,
+                .conn_latency = CY_BT_CONN_LATENCY,
+                .conn_supervision_timeout = CY_BT_CONN_SUPERVISION_TIMEOUT,
+                .min_ce_length = 0,
+                .max_ce_length = 0,
+                /*Expected length of the ce, min_ce<=max_ce*/
+        };
+
         /* Send connection parameter update request to peripheral */
-        if(!wiced_bt_l2cap_update_ble_conn_params(p_status->bd_addr,CY_BT_CONN_MIN_INTERVAL,
-                                                 CY_BT_CONN_MAX_INTERVAL, CY_BT_CONN_LATENCY,
-                                                 CY_BT_CONN_SUPERVISION_TIMEOUT))
+        if(!wiced_bt_l2cap_update_ble_conn_params(p_status->bd_addr,&conn_param_t))
         {
             printf("Failed to Send Connection update parameter request \r\n");
         }
